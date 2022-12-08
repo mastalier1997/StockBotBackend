@@ -14,25 +14,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
-const app_1 = require("firebase/app");
 const firestore_1 = require("firebase/firestore");
-const firebaseconfig_1 = __importDefault(require("./firebaseconfig"));
 const firestore_2 = require("firebase/firestore");
+const app_1 = require("firebase/app");
+const firebaseconfig_1 = __importDefault(require("./firebaseconfig"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 8080;
-const firestore = (0, app_1.initializeApp)(firebaseconfig_1.default);
-const db = (0, firestore_1.getFirestore)(firestore);
-getDBData();
+const firebaseApp = (0, app_1.initializeApp)(firebaseconfig_1.default);
+const db = (0, firestore_1.getFirestore)();
+app.get("/test", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const querySnapshot = yield (0, firestore_2.getDocs)((0, firestore_2.collection)(db, "users"));
+        let resArr = [];
+        querySnapshot.forEach((doc) => {
+            resArr.push(doc.data());
+        });
+        res.send(resArr);
+    }
+    catch (error) {
+        console.error(error);
+    }
+}));
 app.get("/", (req, res) => res.send("Hello from server!"));
 app.set("port", PORT);
 http_1.default
     .createServer(app)
     .listen(PORT, () => console.log(`Node app running at localhost:${PORT}`));
-function getDBData() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const querySnapshot = yield (0, firestore_2.getDocs)((0, firestore_2.collection)(db, "test"));
-        querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`);
-        });
-    });
-}
