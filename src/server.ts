@@ -1,30 +1,18 @@
 import express from "express";
+import bodyParser from "body-parser";
 import http from "http";
-import { getFirestore } from "firebase/firestore";
+import { addDoc, getFirestore, query, where } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
-import firebaseConfig from "./firebaseconfig";
+import { Stock } from "./interfaces/stockInterface";
+import { db } from "./db/firebase";
+import { router } from "./routes/stocks";
 
 const app = express();
+app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 8080;
 
-const firebaseApp = initializeApp(firebaseConfig);
-
-const db = getFirestore();
-
-app.get("/test", async (req, res) => {
-  try {
-    const querySnapshot = await getDocs(collection(db, "users"));
-    let resArr: any = [];
-    querySnapshot.forEach((doc) => {
-      resArr.push(doc.data());
-    });
-    res.send(resArr);
-  } catch (error) {
-    console.error(error);
-  }
-});
+app.use("/stocks", router)
 
 app.get("/", (req, res) => res.send("Hello from server!"));
 
