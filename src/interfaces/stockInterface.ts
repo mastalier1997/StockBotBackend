@@ -5,6 +5,7 @@ export interface Stock {
   shares_count?: number;
   price: number;
   dbTimestamp?: string;
-  logoUrl?:string;
-  companyUrl?:string;
+  logoUrl?: string;
+  companyUrl?: string;
+  stockUrl?: string;
 }
