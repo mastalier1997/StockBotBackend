@@ -9,7 +9,7 @@ const http_1 = __importDefault(require("http"));
 const stocks_1 = require("./routes/stocks");
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.use("/stocks", stocks_1.router);
 app.get("/", (req, res) => res.send("Hello from server!"));
 app.set("port", PORT);
