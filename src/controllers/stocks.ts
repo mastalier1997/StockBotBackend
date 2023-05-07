@@ -11,8 +11,10 @@ import {
 import { Stock } from "../interfaces/stockInterface";
 import { Request, Response } from "express";
 import { db } from "../db/firebase";
+import { addStockToDb, getRandomStockSymbol } from "../controllers/stockPicker";
 
 export async function getStocks(req: Request, res: Response) {
+  addStockToDb();
   try {
     const querySnapshot = await getDocs(collection(db, "stocks"));
     let resArr: any = [];
@@ -22,6 +24,30 @@ export async function getStocks(req: Request, res: Response) {
     res.send(resArr);
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function addNativeStock(stock: Stock) {
+  let data: Stock = stock;
+  const currDate = new Date();
+  data.dbTimestamp = currDate.toISOString();
+  try {
+    const querySnapshot = await getDocs(collection(db, "stocks"));
+    let containsStock = false;
+    querySnapshot.forEach((doc) => {
+      if (doc.data().symbol === data.symbol) {
+        containsStock = true;
+        return;
+      }
+    });
+    if (!containsStock) {
+      await setDoc(doc(db, "stocks", data.symbol), data);
+      console.log("Document added to database");
+    } else {
+      console.log("Element is already in collection");
+    }
+  } catch (e) {
+    console.error("Error adding document: ", e);
   }
 }
 
