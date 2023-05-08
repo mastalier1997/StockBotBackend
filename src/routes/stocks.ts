@@ -1,5 +1,9 @@
 import express from "express";
-import { addStock, getStocks, updateStock } from "../controllers/stocks";
+import {
+  addStock,
+  getStocks,
+  updateStock,
+} from "../controllers/stocksEndpoint";
 
 const router = express.Router();
 
