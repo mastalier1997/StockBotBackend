@@ -1,5 +1,5 @@
 steps:
-- name: 'instance-1'
+- name: 'gcr.io/cloud-builders/gcloud'
   id: Update staging server
   entrypoint: /bin/sh
   args:
