@@ -1,0 +1,9 @@
+steps:
+  -name: "instance-1"
+  id: Update server
+  entrypoint: /bin/sh
+  args:
+    - "-c"
+    - |
+      set -x && \
+      glocud compute ssh medium-server --zone=us-east1-b --command='bin/sh/home/jhmcoding/pull.sh'
