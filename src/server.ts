@@ -10,7 +10,7 @@ import { router } from "./routes/stocks";
 const app = express();
 app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use("/stocks", router)
 
