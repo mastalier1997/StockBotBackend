@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import http from "http";
+import cors from "cors";
 import { router } from "./routes/stocks";
 import { addStockAtTime } from "./controllers/stockPicker";
 
