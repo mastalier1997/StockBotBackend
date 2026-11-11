@@ -2,8 +2,13 @@ import { Stock } from "../interfaces/stockInterface";
 import fetch from "node-fetch";
 import { addNativeStock } from "./stocksEndpoint";
 
-const NasDaq500API =
-  "https://financialmodelingprep.com/api/v3/nasdaq_constituent?apikey=***REMOVED***";
+// Financial Modeling Prep API key, read from the environment (never commit it).
+const FMP_API_KEY = process.env.FMP_API_KEY;
+if (!FMP_API_KEY) {
+  console.warn("FMP_API_KEY is not set; NASDAQ constituent lookups will fail.");
+}
+
+const NasDaq500API = `https://financialmodelingprep.com/api/v3/nasdaq_constituent?apikey=${FMP_API_KEY}`;
 
 const StockInfoAPI = "https://query1.finance.yahoo.com/v8/finance/chart/";
 const StockInfoAPIParameters =
